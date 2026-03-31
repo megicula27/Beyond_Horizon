@@ -2,13 +2,13 @@ import { View, Text, TextInput, Pressable, StyleSheet, ScrollView, Alert } from 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
-import { colors } from "./src/theme/colors";
+import { colors } from "../../src/theme/colors";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, LoginFormValues } from "./src/features/auth/schema";
-import { loginApi } from "./src/features/auth/api";
-import { setTokens } from "./src/lib/secureStore";
-import { useAuthStore } from "./src/features/auth/store";
+import { loginSchema, LoginFormValues } from "../../src/features/auth/schema";
+import { loginApi } from "../../src/features/auth/api";
+import { setTokens } from "../../src/lib/secureStore";
+import { useAuthStore } from "../../src/features/auth/store";
 import { router } from "expo-router";
 
 export default function LoginScreen() {
