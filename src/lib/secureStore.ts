@@ -31,8 +31,7 @@ export async function getRefreshToken() {
   }
 }
 
- export async function clearTokens() {
-
+export async function clearTokens() {
   try {
     await Promise.all([
       SecureStore.deleteItemAsync(ACCESS_TOKEN_KEY),
@@ -40,5 +39,5 @@ export async function getRefreshToken() {
     ]);
   } catch (e) {
     console.error("Error clearing tokens", e);
- }
- }
+  }
+}

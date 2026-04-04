@@ -1,8 +1,7 @@
 import { create } from "zustand";
 import { AuthUser } from "./types";
-import { persist } from "zustand/middleware";
-
-
+import { createJSONStorage, persist } from "zustand/middleware";
+import * as SecureStore from "expo-secure-store";
 
 type AuthState = {
   user: AuthUser | null;
@@ -10,6 +9,19 @@ type AuthState = {
   setSession: (user: AuthUser) => void;
   clearSession: () => void;
 };
+
+const authStateStorage = createJSONStorage<AuthState>(() => ({
+  getItem: async (name) => {
+    const value = await SecureStore.getItemAsync(name);
+    return value ?? null;
+  },
+  setItem: async (name, value) => {
+    await SecureStore.setItemAsync(name, value);
+  },
+  removeItem: async (name) => {
+    await SecureStore.deleteItemAsync(name);
+  },
+}));
 
 export const useAuthStore = create<AuthState>()(
   persist(
@@ -31,6 +43,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: "auth-storage",
+      storage: authStateStorage,
     }
   )
 );

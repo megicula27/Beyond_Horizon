@@ -2,6 +2,7 @@ import { View, Text, TextInput, Pressable, StyleSheet, ScrollView, Alert } from 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import axios from "axios";
 import { colors } from "../../src/theme/colors";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,8 +33,23 @@ export default function LoginScreen() {
       if (res.user.role === "HOD") router.replace("/(protected)/hod");
       else if (res.user.role === "OFFICER") router.replace("/(protected)/officer");
       else router.replace("/(protected)/admin");
-    } catch (error: any) {
-      Alert.alert("Login failed", error?.response?.data?.message ?? "Invalid credentials or server error");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log("login error", {
+          message: error.message,
+          code: error.code,
+          status: error.response?.status,
+          data: error.response?.data,
+        });
+      } else {
+        console.log("login error", error);
+      }
+
+      const message = axios.isAxiosError(error)
+        ? error.response?.data?.message ?? error.message
+        : "Invalid credentials or server error";
+
+      Alert.alert("Login failed", message);
     }
   };
 

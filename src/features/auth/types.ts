@@ -5,6 +5,7 @@ export interface AuthUser {
   name: string;
   role: UserRole;
   imoNumber: string;
+  profilePicture?: string | null;
 }
 
 export interface LoginRequest {
